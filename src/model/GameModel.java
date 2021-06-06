@@ -6,11 +6,10 @@ package model;
 public class GameModel {
 	
 	//Controls(send notification to the current level room)
-	Controls controls;
+	Direction controls;
 	//List of level
 	//Current level
 	//Current room
-	
 	
 	private static GameModel instance = null;
 	
@@ -26,6 +25,5 @@ public class GameModel {
 	public void move(int direction) {
 		
 	}
-	
 	
 }
