@@ -6,8 +6,9 @@ public class Block {
 	public static final int FLOOR = 0;
 	public static final int EMPTY = 1;
 	public static final int WALL = 2;
-	public static final int DOOR = 3;
-	public static final int PLAYER = 4;
+	public static final int DOOR_ENTRY = 3;
+	public static final int DOOR_EXIT = 4;
+	public static final int PLAYER = 5;
 	
 	private int type;
 	

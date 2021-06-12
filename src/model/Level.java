@@ -1,45 +1,82 @@
 package model;
 
-import java.io.File;
 import java.util.HashMap;
 
 //Level host many rooms.
 //It is an abstract class and other levels inherit from it.
 //It is characterized by a list of room.
 
-public abstract class Level {
+public class Level {
 	//level name
-	private String name;
+	private int name;
 	
 	//number of room.
 	private int roomsNumber;
 	
-	//hash of room.Each number identifies a room.
+	//hashMap of room.Each number identifies a room.
 	private HashMap<Integer, Room> rooms = new HashMap<Integer, Room>();
 	
-	//Path of the level to load (the folder contains all room project)
-	private String levelPath = "resources.LevelRoomMaps.Level";
+	//Current room.Where the player is placed.
+	private Room currentRoom;
 	
-	public Level(String name, int roomsNumber) {
+	//Current room key.
+	public int currentKey;
+	
+	//Path of the level to load (the folder contains all room project)
+	private String levelPath = "/resources/levels/level";
+	
+	public Level(int name, int roomsNumber) {
 		this.name = name;
 		this.roomsNumber = roomsNumber;
-	    levelPath = levelPath.concat(name);
+	    levelPath = levelPath.concat(Integer.toString(name));
 	    buildRooms();
+	    currentKey = 0;
+	    currentRoom = rooms.get(currentKey);
 	}
 	
 	//using levelPath this method, build new room with the path of every room structure (txt file)
 	private void buildRooms() {
 		for(int i = 0; i < roomsNumber; i++) {
-			rooms.put(i, new Room(levelPath + File.separator + "Room" + i));
+			rooms.put(i, new Room(levelPath + "/Room" + i + ".txt"));
 		}
 	}
+
+	//get level name.
+	public int getName() {
+		return name;
+	}
+
+	//get current room.
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
+	//to set next room. If the are no more room, the level is finished.
+	public boolean nextRoom() {
+		currentKey++;
+		if(currentKey == roomsNumber) {
+			currentKey = roomsNumber;
+			return false;
+		}
+		
+		System.out.println("ROOM: " + currentKey);
+		
+		currentRoom = rooms.get(currentKey);
+		return true;
+	}
 	
-	/*
-	 * Per gestire quando vado da una stanza all'altra devo tenermi 
-	 * la stanza corrente(quella in cui si trova il mio player) e ogni 
-	 * volta che mi avvicino ad un blocco porta devo segnalarlo al livello che cambia 
-	 * la stanza attuale
-	 */
-	
+	//to set previous room
+	public boolean previousRoom() {
+		currentKey--;
+		if(currentKey < 0) {
+			currentKey = 0;
+			return false;
+		}
+		
+		System.out.println("ROOM: " + currentKey);
+		
+		currentRoom = rooms.get(currentKey);
+		return true;
+	}
 
 }
